@@ -55,6 +55,8 @@ public class Subscription {
 				+ ((application == null) ? 0 : application.hashCode());
 		result = prime * result
 				+ ((processId == null) ? 0 : processId.hashCode());
+		result = prime * result
+				+ ((severity == null) ? 0 : severity.hashCode());
 		return result;
 	}
 
@@ -76,6 +78,11 @@ public class Subscription {
 			if (other.processId != null)
 				return false;
 		} else if (!processId.equals(other.processId))
+			return false;
+		if (severity == null) {
+			if (other.severity != null)
+				return false;
+		} else if (!severity.equals(other.severity))
 			return false;
 		return true;
 	}

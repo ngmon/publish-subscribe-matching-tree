@@ -22,7 +22,7 @@ public class MachingTreeTestCase {
 	private Subscription processId1000Subscription;
 	private Subscription processId2000Subscription;
 	private Subscription everyEventSubscription;
-	private Subscription postgreSql1000Subscription;
+	private Subscription postgreSql3000Subscription;
 	private Subscription postgreSqlSubscription;
 
 	@Before
@@ -59,10 +59,10 @@ public class MachingTreeTestCase {
 		tree.preprocess(everyEventSubscription);
 
 		// PostgreSQL, 3000
-		postgreSql1000Subscription = new Subscription();
-		postgreSql1000Subscription.setApplication("PostgreSQL");
-		postgreSql1000Subscription.setProcessId(3000L);
-		tree.preprocess(postgreSql1000Subscription);
+		postgreSql3000Subscription = new Subscription();
+		postgreSql3000Subscription.setApplication("PostgreSQL");
+		postgreSql3000Subscription.setProcessId(3000L);
+		tree.preprocess(postgreSql3000Subscription);
 
 		// PostgreSQL
 		postgreSqlSubscription = new Subscription();
@@ -122,7 +122,7 @@ public class MachingTreeTestCase {
 	}
 	
 	@Test
-	public void testProcessId100Event() {
+	public void testProcessId1000Event() {
 		Event event = new Event(0L, "Foo", 1000L, 1);
 		List<Subscription> subscriptions = tree.match(event);
 		assertEquals(2, subscriptions.size());

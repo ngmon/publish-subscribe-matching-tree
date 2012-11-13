@@ -18,4 +18,8 @@ public class Predicate<T1 extends Comparable<?>> {
 		return result;
 	}
 
+	public boolean isCoveredBy(Test<Comparable<?>> test2, String result2) {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
+
 }

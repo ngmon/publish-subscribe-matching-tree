@@ -7,11 +7,11 @@ import java.util.List;
 
 import org.junit.Test;
 
-import cz.muni.fi.publishsubscribe.matchingtree.Event;
-import cz.muni.fi.publishsubscribe.matchingtree.MatchingTree;
-import cz.muni.fi.publishsubscribe.matchingtree.Subscription;
+import cz.muni.fi.publishsubscribe.matchingtree.equality.Event;
+import cz.muni.fi.publishsubscribe.matchingtree.equality.MatchingTree;
+import cz.muni.fi.publishsubscribe.matchingtree.equality.Subscription;
 
-public class MachingTreeSimpleTestCase {
+public class EqualityMachingTreeSimpleTestCase {
 
 	@Test
 	public void testEmptyTree() {

@@ -1,6 +1,7 @@
-package cz.muni.fi.publishsubscribe.matchingtree;
+package cz.muni.fi.publishsubscribe.matchingtree.equality;
 
 import java.util.List;
+
 
 public class Main {
 

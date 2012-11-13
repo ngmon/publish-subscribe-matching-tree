@@ -1,4 +1,4 @@
-package cz.muni.fi.publishsubscribe.matchingtree;
+package cz.muni.fi.publishsubscribe.matchingtree.equality;
 
 /**
  * A simple POJO representing an event; its attributes are ordered (starting

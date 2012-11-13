@@ -1,8 +1,9 @@
-package cz.muni.fi.publishsubscribe.matchingtree;
+package cz.muni.fi.publishsubscribe.matchingtree.equality;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+
 
 /**
  * A matching tree - composed of Nodes, subscriptions are in leaves

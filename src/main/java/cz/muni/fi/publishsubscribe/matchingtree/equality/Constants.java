@@ -1,4 +1,4 @@
-package cz.muni.fi.publishsubscribe.matchingtree;
+package cz.muni.fi.publishsubscribe.matchingtree.equality;
 
 public class Constants {
 

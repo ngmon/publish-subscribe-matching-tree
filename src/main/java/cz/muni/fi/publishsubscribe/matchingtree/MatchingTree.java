@@ -26,7 +26,7 @@ public class MatchingTree {
 		while (found && i < predicatesCount) {
 			Predicate<Comparable<?>, Comparable<?>> currentPredicate = predicates
 					.get(i);
-			Test<Comparable<?>> currentTest = currentPredicate.getTest();
+			PredicateTest<Comparable<?>> currentTest = currentPredicate.getTest();
 			TestResult<Comparable<?>> currentResult = currentPredicate
 					.getResult();
 

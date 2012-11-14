@@ -7,17 +7,17 @@ public class Node {
 
 	private boolean isLeaf = false;
 
-	private Test<Comparable<?>> test;
+	private PredicateTest<Comparable<?>> test;
 	private Map<TestResult<Comparable<?>>, Node> resultNodes = new HashMap<TestResult<Comparable<?>>, Node>();
 	private Node starNode;
 
 	private Subscription subscription;
 
-	public Test<Comparable<?>> getTest() {
+	public PredicateTest<Comparable<?>> getTest() {
 		return test;
 	}
 
-	public void setTest(Test<Comparable<?>> test) {
+	public void setTest(PredicateTest<Comparable<?>> test) {
 		this.test = test;
 		this.isLeaf = false;
 	}

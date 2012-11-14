@@ -1,12 +1,12 @@
 package cz.muni.fi.publishsubscribe.matchingtree;
 
-public class Test<T1 extends Comparable<?>> {
+public class PredicateTest<T1 extends Comparable<?>> {
 
 	private String attributeName;
 	private AttributeValue<T1> value;
 	private TestOperation operation;
 
-	public Test(String attributeName, AttributeValue<T1> value,
+	public PredicateTest(String attributeName, AttributeValue<T1> value,
 			TestOperation operation) {
 		this.attributeName = attributeName;
 		this.value = value;
@@ -45,7 +45,7 @@ public class Test<T1 extends Comparable<?>> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Test<?> other = (Test<?>) obj;
+		PredicateTest<?> other = (PredicateTest<?>) obj;
 		if (attributeName == null) {
 			if (other.attributeName != null)
 				return false;

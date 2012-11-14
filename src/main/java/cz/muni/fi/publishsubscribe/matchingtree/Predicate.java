@@ -52,16 +52,15 @@ public class Predicate<TEST_TYPE extends Comparable, RESULT_TYPE extends Compara
 			case COMPARE: {
 				// TODO - typecast
 				ComparisonResult otherComparisonResultValue = (ComparisonResult) otherResultValue;
-				RESULT_TYPE otherTestValueTypecast = (RESULT_TYPE) otherTestValue;
 				switch (otherComparisonResultValue) {
 				case GREATER:
-					return resultValue.compareTo(otherTestValueTypecast) > 0;
+					return resultValue.compareTo(otherTestValue) > 0;
 				case GREATER_OR_EQUAL:
-					return resultValue.compareTo(otherTestValueTypecast) >= 0;
+					return resultValue.compareTo(otherTestValue) >= 0;
 				case SMALLER:
-					return resultValue.compareTo(otherTestValueTypecast) < 0;
+					return resultValue.compareTo(otherTestValue) < 0;
 				case SMALLER_OR_EQUAL:
-					return resultValue.compareTo(otherTestValueTypecast) <= 0;
+					return resultValue.compareTo(otherTestValue) <= 0;
 				}
 			}
 			}

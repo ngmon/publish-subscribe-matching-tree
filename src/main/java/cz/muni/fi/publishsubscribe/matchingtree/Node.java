@@ -51,7 +51,7 @@ public class Node {
 		this.isLeaf = true;
 	}
 
-	public void addResultNode(TestResult<Comparable<?>> result, Node node) {
+	public void putResultNode(TestResult<Comparable<?>> result, Node node) {
 		resultNodes.put(result, node);
 	}
 

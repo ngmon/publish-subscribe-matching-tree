@@ -23,20 +23,31 @@ public class MatchingTree {
 		Node currentNode = root;
 		int i = 0;
 
+		Node lastNode = null;
+		TestResult<Comparable<?>> lastResult = null;
+
 		while (found && i < predicatesCount) {
 			Predicate<Comparable<?>, Comparable<?>> currentPredicate = predicates
 					.get(i);
-			PredicateTest<Comparable<?>> currentTest = currentPredicate.getTest();
+			PredicateTest<Comparable<?>> currentTest = currentPredicate
+					.getTest();
 			TestResult<Comparable<?>> currentResult = currentPredicate
 					.getResult();
 
 			if (currentNode.isLeaf()) {
-				// TODO
+				Node node = new Node();
+				node.setTest(currentTest);
+				node.setStarNode(currentNode);
+				lastNode.putResultNode(lastResult, node);
+				currentNode = node;
+				found = false;
 			} else if (currentNode.getTest().equals(currentTest)) {
 				Node resultNode = currentNode.getResultNode(currentResult);
 				if (resultNode == null)
 					found = false;
 				else {
+					lastNode = currentNode;
+					lastResult = currentResult;
 					currentNode = resultNode;
 					i++;
 				}
@@ -44,14 +55,21 @@ public class MatchingTree {
 				for (TestResult<Comparable<?>> result : currentNode
 						.getResultNodes().keySet()) {
 					if (currentPredicate.isCoveredBy(currentNode.getTest(),
-							result))
+							result)) {
+						lastNode = currentNode;
+						lastResult = result;
 						currentNode = currentNode.getResultNode(result);
-					else if (currentNode.getStarNode() != null)
+					} else if (currentNode.getStarNode() != null) {
+						lastNode = currentNode;
+						lastResult = null;  // meaning star node
 						currentNode = currentNode.getStarNode();
+					}
 					else {
 						Node node = new Node();
 						node.setTest(currentTest);
 						currentNode.setStarNode(node);
+						lastNode = currentNode;
+						lastResult = null;
 						currentNode = node;
 						found = false;
 					}
@@ -66,7 +84,7 @@ public class MatchingTree {
 					node.setSubscription(subscription);
 				else
 					node.setTest(predicates.get(i + 1).getTest());
-				currentNode.addResultNode(predicates.get(i).getResult(), node);
+				currentNode.putResultNode(predicates.get(i).getResult(), node);
 				i++;
 			}
 		} else {

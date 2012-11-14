@@ -18,4 +18,28 @@ public class TestResult<T1 extends Comparable<?>> {
 		return type;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		TestResult<?> that = (TestResult<?>) o;
+
+		if (!type.equals(that.type))
+			return false;
+		if (value != null ? !value.equals(that.value) : that.value != null)
+			return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = type.hashCode();
+		result = 31 * result + (value != null ? value.hashCode() : 0);
+		return result;
+	}
+
 }

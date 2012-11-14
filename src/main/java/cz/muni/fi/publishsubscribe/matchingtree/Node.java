@@ -8,7 +8,7 @@ public class Node {
 	private boolean isLeaf = false;
 
 	private Test<Comparable<?>> test;
-	private Map<String, Node> resultNodes = new HashMap<String, Node>();
+	private Map<TestResult<Comparable<?>>, Node> resultNodes = new HashMap<TestResult<Comparable<?>>, Node>();
 	private Node starNode;
 
 	private Subscription subscription;
@@ -26,11 +26,11 @@ public class Node {
 		return isLeaf;
 	}
 
-	public Map<String, Node> getResultNodes() {
+	public Map<TestResult<Comparable<?>>, Node> getResultNodes() {
 		return resultNodes;
 	}
 
-	public Node getResultNode(String result) {
+	public Node getResultNode(TestResult<Comparable<?>> result) {
 		return resultNodes.get(result);
 	}
 
@@ -51,7 +51,7 @@ public class Node {
 		this.isLeaf = true;
 	}
 
-	public void addResultNode(String result, Node node) {
+	public void addResultNode(TestResult<Comparable<?>> result, Node node) {
 		resultNodes.put(result, node);
 	}
 

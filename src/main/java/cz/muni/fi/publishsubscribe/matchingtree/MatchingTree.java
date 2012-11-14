@@ -7,7 +7,7 @@ public class MatchingTree {
 	private Node root = null;
 
 	public boolean preprocess(Subscription subscription) {
-		List<Predicate<Comparable<?>>> predicates = subscription
+		List<Predicate<Comparable<?>, Comparable<?>>> predicates = subscription
 				.getPredicates();
 		if (predicates.isEmpty())
 			return false;
@@ -19,15 +19,17 @@ public class MatchingTree {
 			root.setTest(predicates.get(0).getTest());
 			found = false;
 		}
-		
+
 		Node currentNode = root;
 		int i = 0;
-		
+
 		while (found && i < predicatesCount) {
-			Predicate<Comparable<?>> currentPredicate = predicates.get(i);
+			Predicate<Comparable<?>, Comparable<?>> currentPredicate = predicates
+					.get(i);
 			Test<Comparable<?>> currentTest = currentPredicate.getTest();
-			String currentResult = currentPredicate.getResult();
-			
+			TestResult<Comparable<?>> currentResult = currentPredicate
+					.getResult();
+
 			if (currentNode.isLeaf()) {
 				// TODO
 			} else if (currentNode.getTest().equals(currentTest)) {
@@ -39,8 +41,10 @@ public class MatchingTree {
 					i++;
 				}
 			} else {
-				for (String result : currentNode.getResultNodes().keySet()) {
-					if (currentPredicate.isCoveredBy(currentNode.getTest(), result))
+				for (TestResult<Comparable<?>> result : currentNode
+						.getResultNodes().keySet()) {
+					if (currentPredicate.isCoveredBy(currentNode.getTest(),
+							result))
 						currentNode = currentNode.getResultNode(result);
 					else if (currentNode.getStarNode() != null)
 						currentNode = currentNode.getStarNode();
@@ -54,7 +58,7 @@ public class MatchingTree {
 				}
 			}
 		}
-		
+
 		if (!found) {
 			while (i < predicatesCount) {
 				Node node = new Node();
@@ -76,7 +80,7 @@ public class MatchingTree {
 				}
 			}
 		}
-		
+
 		return true;
 	}
 

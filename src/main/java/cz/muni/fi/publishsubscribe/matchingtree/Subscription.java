@@ -5,13 +5,13 @@ import java.util.List;
 
 public class Subscription {
 
-	private List<Predicate<Comparable<?>>> predicates = new ArrayList<>();
+	private List<Predicate<Comparable<?>, Comparable<?>>> predicates = new ArrayList<>();
 
-	public void addPredicate(Predicate<Comparable<?>> predicate) {
+	public void addPredicate(Predicate<Comparable<?>, Comparable<?>> predicate) {
 		this.predicates.add(predicate);
 	}
 
-	public List<Predicate<Comparable<?>>> getPredicates() {
+	public List<Predicate<Comparable<?>, Comparable<?>>> getPredicates() {
 		return predicates;
 	}
 

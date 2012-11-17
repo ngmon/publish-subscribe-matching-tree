@@ -107,7 +107,8 @@ public class MatchingTree {
 		List<Subscription> matchedSubscriptions = new ArrayList<>();
 
 		Stack<Node> stack = new Stack<>();
-		stack.push(root);
+		if (root != null)
+			stack.push(root);
 
 		while (!stack.isEmpty()) {
 			Node currentNode = stack.pop();

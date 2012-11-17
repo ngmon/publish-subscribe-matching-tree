@@ -9,8 +9,7 @@ public class MatchingTree {
 	private Node root = null;
 
 	public boolean preprocess(Subscription subscription) {
-		List<Predicate<Comparable<?>, Comparable<?>>> predicates = subscription
-				.getPredicates();
+		List<Predicate> predicates = subscription.getPredicates();
 		if (predicates.isEmpty())
 			return false;
 		int predicatesCount = predicates.size();
@@ -54,6 +53,7 @@ public class MatchingTree {
 					i++;
 				}
 			} else {
+				boolean foundCovered = false;
 				for (TestResult<Comparable<?>> result : currentNode
 						.getResultNodes().keySet()) {
 					if (currentPredicate.isCoveredBy(currentNode.getTest(),
@@ -61,7 +61,12 @@ public class MatchingTree {
 						lastNode = currentNode;
 						lastResult = result;
 						currentNode = currentNode.getResultNode(result);
-					} else if (currentNode.getStarNode() != null) {
+						foundCovered = true;
+						break;
+					}
+				}
+				if (!foundCovered) {
+					if (currentNode.getStarNode() != null) {
 						lastNode = currentNode;
 						lastResult = null; // meaning star node
 						currentNode = currentNode.getStarNode();
@@ -81,11 +86,13 @@ public class MatchingTree {
 		if (!found) {
 			while (i < predicatesCount) {
 				Node node = new Node();
-				if (i == predicatesCount)
+				if (i == predicatesCount - 1)
 					node.setSubscription(subscription);
 				else
 					node.setTest(predicates.get(i + 1).getTest());
 				currentNode.putResultNode(predicates.get(i).getResult(), node);
+				// TODO - next line is not in the algorithm in the paper
+				currentNode = node;
 				i++;
 			}
 		} else {
@@ -123,93 +130,85 @@ public class MatchingTree {
 
 				Attribute<? extends Comparable<?>> eventAttribute = event
 						.getAttributeByName(attributeName);
-				AttributeValue<? extends Comparable<?>> eventAttributeValue = eventAttribute
-						.getValue();
 
-				boolean foundResult = false;
+				if (eventAttribute != null) {
+					AttributeValue<? extends Comparable<?>> eventAttributeValue = eventAttribute
+							.getValue();
 
-				// switching based on the test in the current node
-				switch (currentTest.getOperation()) {
+					// switching based on the test in the current node
+					switch (currentTest.getOperation()) {
 
-				case EXAMINE: {
-					Node resultNode = currentNode
-							.getResultNode((TestResult<Comparable<?>>) eventAttributeValue
-									.getValue());
-					if (resultNode != null)
-						stack.push(resultNode);
-					break;
-				}
-
-				case COMPARE:
-					int compareResult = attributeValue.getValue().compareTo(
-							eventAttributeValue.getValue());
-					if (compareResult == 0) {
+					case EXAMINE: {
 						Node resultNode = currentNode
 								.getResultNode(new TestResult(
-										ComparisonResult.GREATER_OR_EQUAL,
-										ComparisonResult.class));
-						if (resultNode != null) {
+										eventAttributeValue.getValue(),
+										eventAttributeValue.getType()));
+						if (resultNode != null)
 							stack.push(resultNode);
-							foundResult = true;
-						} else {
+						break;
+					}
+
+					case COMPARE:
+						int compareResult = attributeValue.getValue()
+								.compareTo(eventAttributeValue.getValue());
+						if (compareResult == 0) {
+							Node resultNode = currentNode
+									.getResultNode(new TestResult(
+											ComparisonResult.GREATER_OR_EQUAL,
+											ComparisonResult.class));
+							if (resultNode != null) {
+								stack.push(resultNode);
+							}
 							resultNode = currentNode
 									.getResultNode(new TestResult(
 											ComparisonResult.SMALLER_OR_EQUAL,
 											ComparisonResult.class));
 							if (resultNode != null) {
 								stack.push(resultNode);
-								foundResult = true;
 							}
-						}
-						// the node attribute value is less than event value ->
-						// event value is greater -> looking for greater /
-						// greater or equal results
-					} else if (compareResult < 0) {
-						Node resultNode = currentNode
-								.getResultNode(new TestResult(
-										ComparisonResult.GREATER,
-										ComparisonResult.class));
-						if (resultNode != null) {
-							stack.push(resultNode);
-							foundResult = true;
-						} else {
+							// the node attribute value is less than event value
+							// ->
+							// event value is greater -> looking for greater /
+							// greater or equal results
+						} else if (compareResult < 0) {
+							Node resultNode = currentNode
+									.getResultNode(new TestResult(
+											ComparisonResult.GREATER,
+											ComparisonResult.class));
+							if (resultNode != null) {
+								stack.push(resultNode);
+							}
 							resultNode = currentNode
 									.getResultNode(new TestResult(
 											ComparisonResult.GREATER_OR_EQUAL,
 											ComparisonResult.class));
 							if (resultNode != null) {
 								stack.push(resultNode);
-								foundResult = true;
 							}
-						}
-					} else if (compareResult > 0) {
-						Node resultNode = currentNode
-								.getResultNode(new TestResult(
-										ComparisonResult.SMALLER,
-										ComparisonResult.class));
-						if (resultNode != null) {
-							stack.push(resultNode);
-							foundResult = true;
-						} else {
+						} else if (compareResult > 0) {
+							Node resultNode = currentNode
+									.getResultNode(new TestResult(
+											ComparisonResult.SMALLER,
+											ComparisonResult.class));
+							if (resultNode != null) {
+								stack.push(resultNode);
+							}
 							resultNode = currentNode
 									.getResultNode(new TestResult(
 											ComparisonResult.SMALLER_OR_EQUAL,
 											ComparisonResult.class));
 							if (resultNode != null) {
 								stack.push(resultNode);
-								foundResult = true;
 							}
 						}
+						break;
 					}
-					break;
 				}
 
 				// star node
-				if (!foundResult) {
-					Node starNode = currentNode.getStarNode();
-					if (starNode != null) {
-						stack.push(starNode);
-					}
+				Node starNode = currentNode.getStarNode();
+				if (starNode != null) {
+					stack.push(starNode);
 				}
 			}
 		}

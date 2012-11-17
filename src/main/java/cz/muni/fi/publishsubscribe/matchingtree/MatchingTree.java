@@ -1,6 +1,8 @@
 package cz.muni.fi.publishsubscribe.matchingtree;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class MatchingTree {
 
@@ -61,10 +63,9 @@ public class MatchingTree {
 						currentNode = currentNode.getResultNode(result);
 					} else if (currentNode.getStarNode() != null) {
 						lastNode = currentNode;
-						lastResult = null;  // meaning star node
+						lastResult = null; // meaning star node
 						currentNode = currentNode.getStarNode();
-					}
-					else {
+					} else {
 						Node node = new Node();
 						node.setTest(currentTest);
 						currentNode.setStarNode(node);
@@ -103,7 +104,115 @@ public class MatchingTree {
 	}
 
 	public List<Subscription> match(Event event) {
-		throw new UnsupportedOperationException("Not yet implemented");
-	}
+		List<Subscription> matchedSubscriptions = new ArrayList<>();
 
+		Stack<Node> stack = new Stack<>();
+		stack.push(root);
+
+		while (!stack.isEmpty()) {
+			Node currentNode = stack.pop();
+			if (currentNode.isLeaf()) {
+				matchedSubscriptions.add(currentNode.getSubscription());
+			} else {
+				PredicateTest<Comparable<?>> currentTest = currentNode
+						.getTest();
+				String attributeName = currentTest.getAttributeName();
+				AttributeValue<? extends Comparable> attributeValue = currentTest
+						.getValue();
+
+				Attribute<? extends Comparable<?>> eventAttribute = event
+						.getAttributeByName(attributeName);
+				AttributeValue<? extends Comparable<?>> eventAttributeValue = eventAttribute
+						.getValue();
+
+				boolean foundResult = false;
+
+				// switching based on the test in the current node
+				switch (currentTest.getOperation()) {
+
+				case EXAMINE: {
+					Node resultNode = currentNode
+							.getResultNode((TestResult<Comparable<?>>) eventAttributeValue
+									.getValue());
+					if (resultNode != null)
+						stack.push(resultNode);
+					break;
+				}
+
+				case COMPARE:
+					int compareResult = attributeValue.getValue().compareTo(
+							eventAttributeValue.getValue());
+					if (compareResult == 0) {
+						Node resultNode = currentNode
+								.getResultNode(new TestResult(
+										ComparisonResult.GREATER_OR_EQUAL,
+										ComparisonResult.class));
+						if (resultNode != null) {
+							stack.push(resultNode);
+							foundResult = true;
+						} else {
+							resultNode = currentNode
+									.getResultNode(new TestResult(
+											ComparisonResult.SMALLER_OR_EQUAL,
+											ComparisonResult.class));
+							if (resultNode != null) {
+								stack.push(resultNode);
+								foundResult = true;
+							}
+						}
+						// the node attribute value is less than event value ->
+						// event value is greater -> looking for greater /
+						// greater or equal results
+					} else if (compareResult < 0) {
+						Node resultNode = currentNode
+								.getResultNode(new TestResult(
+										ComparisonResult.GREATER,
+										ComparisonResult.class));
+						if (resultNode != null) {
+							stack.push(resultNode);
+							foundResult = true;
+						} else {
+							resultNode = currentNode
+									.getResultNode(new TestResult(
+											ComparisonResult.GREATER_OR_EQUAL,
+											ComparisonResult.class));
+							if (resultNode != null) {
+								stack.push(resultNode);
+								foundResult = true;
+							}
+						}
+					} else if (compareResult > 0) {
+						Node resultNode = currentNode
+								.getResultNode(new TestResult(
+										ComparisonResult.SMALLER,
+										ComparisonResult.class));
+						if (resultNode != null) {
+							stack.push(resultNode);
+							foundResult = true;
+						} else {
+							resultNode = currentNode
+									.getResultNode(new TestResult(
+											ComparisonResult.SMALLER_OR_EQUAL,
+											ComparisonResult.class));
+							if (resultNode != null) {
+								stack.push(resultNode);
+								foundResult = true;
+							}
+						}
+					}
+					break;
+				}
+
+				// star node
+				if (!foundResult) {
+					Node starNode = currentNode.getStarNode();
+					if (starNode != null) {
+						stack.push(starNode);
+					}
+				}
+			}
+		}
+
+		return matchedSubscriptions;
+	}
 }

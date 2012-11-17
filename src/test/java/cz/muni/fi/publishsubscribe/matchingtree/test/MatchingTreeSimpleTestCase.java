@@ -18,9 +18,9 @@ public class MatchingTreeSimpleTestCase {
 	public void testEmptyTree() {
 		MatchingTree emptyTree = new MatchingTree();
 		Event event = new Event();
-		event.addAttribute(new Attribute<Long>("processId",
+		event.putAttribute(new Attribute<Long>("processId",
 				new AttributeValue<Long>(1000L, Long.class)));
-		event.addAttribute(new Attribute<String>("applicationName",
+		event.putAttribute(new Attribute<String>("applicationName",
 				new AttributeValue<String>("Apache Server", String.class)));
 
 		List<Subscription> subscriptions = emptyTree.match(event);

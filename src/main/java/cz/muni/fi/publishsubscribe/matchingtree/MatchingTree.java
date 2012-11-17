@@ -153,14 +153,14 @@ public class MatchingTree {
 								.compareTo(eventAttributeValue.getValue());
 						if (compareResult == 0) {
 							Node resultNode = currentNode
-									.getResultNode(new TestResult(
+									.getResultNode(new TestResult<ComparisonResult>(
 											ComparisonResult.GREATER_OR_EQUAL,
 											ComparisonResult.class));
 							if (resultNode != null) {
 								stack.push(resultNode);
 							}
 							resultNode = currentNode
-									.getResultNode(new TestResult(
+									.getResultNode(new TestResult<ComparisonResult>(
 											ComparisonResult.SMALLER_OR_EQUAL,
 											ComparisonResult.class));
 							if (resultNode != null) {
@@ -172,14 +172,14 @@ public class MatchingTree {
 							// greater or equal results
 						} else if (compareResult < 0) {
 							Node resultNode = currentNode
-									.getResultNode(new TestResult(
+									.getResultNode(new TestResult<ComparisonResult>(
 											ComparisonResult.GREATER,
 											ComparisonResult.class));
 							if (resultNode != null) {
 								stack.push(resultNode);
 							}
 							resultNode = currentNode
-									.getResultNode(new TestResult(
+									.getResultNode(new TestResult<ComparisonResult>(
 											ComparisonResult.GREATER_OR_EQUAL,
 											ComparisonResult.class));
 							if (resultNode != null) {
@@ -187,14 +187,14 @@ public class MatchingTree {
 							}
 						} else if (compareResult > 0) {
 							Node resultNode = currentNode
-									.getResultNode(new TestResult(
+									.getResultNode(new TestResult<ComparisonResult>(
 											ComparisonResult.SMALLER,
 											ComparisonResult.class));
 							if (resultNode != null) {
 								stack.push(resultNode);
 							}
 							resultNode = currentNode
-									.getResultNode(new TestResult(
+									.getResultNode(new TestResult<ComparisonResult>(
 											ComparisonResult.SMALLER_OR_EQUAL,
 											ComparisonResult.class));
 							if (resultNode != null) {

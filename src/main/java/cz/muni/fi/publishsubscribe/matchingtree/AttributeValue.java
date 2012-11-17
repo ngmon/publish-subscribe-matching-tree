@@ -24,7 +24,7 @@ public class AttributeValue<T1 extends Comparable<?>> {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 
-		AttributeValue that = (AttributeValue) o;
+		AttributeValue<?> that = (AttributeValue<?>) o;
 
 		if (!type.equals(that.type)) return false;
 		if (value != null ? !value.equals(that.value) : that.value != null) return false;

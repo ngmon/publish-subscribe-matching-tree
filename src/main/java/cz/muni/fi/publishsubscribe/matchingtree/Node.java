@@ -36,7 +36,7 @@ public class Node {
 		return resultNodes;
 	}
 
-	public Node getResultNode(TestResult<Comparable<?>> result) {
+	public Node getResultNode(TestResult<?> result) {
 		return resultNodes.get(result);
 	}
 

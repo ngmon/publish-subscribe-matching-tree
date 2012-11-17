@@ -70,7 +70,7 @@ public class Node {
 
 		Node node = (Node) o;
 
-		return (id == node.id);
+		return (id.equals(node.id));
 	}
 
 	@Override

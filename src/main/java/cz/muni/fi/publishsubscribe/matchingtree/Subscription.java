@@ -7,7 +7,7 @@ public class Subscription {
 
 	private List<Predicate> predicates = new ArrayList<>();
 
-	public void addPredicate(Predicate<Comparable<?>, Comparable<?>> predicate) {
+	public void addPredicate(Predicate<? extends Comparable, ? extends Comparable> predicate) {
 		this.predicates.add(predicate);
 	}
 

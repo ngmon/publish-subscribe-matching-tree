@@ -35,14 +35,14 @@ public class ComplexTreeTestCase {
 	private Subscription subscription04;
 	private Subscription subscription05;
 
-	private Predicate apachePredicate;
-	private Predicate pIdLessThan1000Predicate;
+	private Predicate<? extends Comparable<?>, ? extends Comparable<?>> apachePredicate;
+	private Predicate<? extends Comparable<?>, ? extends Comparable<?>> pIdLessThan1000Predicate;
 
-	private Predicate postgreSqlPredicate;
-	private Predicate pIdGreaterOrEqualTo1000Predicate;
+	private Predicate<? extends Comparable<?>, ? extends Comparable<?>> postgreSqlPredicate;
+	private Predicate<? extends Comparable<?>, ? extends Comparable<?>> pIdGreaterOrEqualTo1000Predicate;
 
-	private Predicate pIdGreaterThan2000Predicate;
-	private Predicate pIdGreaterOrEqualTo2000Predicate;
+	private Predicate<? extends Comparable<?>, ? extends Comparable<?>> pIdGreaterThan2000Predicate;
+	private Predicate<? extends Comparable<?>, ? extends Comparable<?>> pIdGreaterOrEqualTo2000Predicate;
 
 	@Before
 	public void prepareTree() {
@@ -135,7 +135,7 @@ public class ComplexTreeTestCase {
 		assertEquals(1, subscriptions.size());
 		assertTrue(subscriptions.contains(subscription04));
 	}
-	
+
 	@Test
 	public void testApache1000Event() {
 		Event event = new Event();
@@ -148,7 +148,7 @@ public class ComplexTreeTestCase {
 		assertEquals(1, subscriptions.size());
 		assertTrue(subscriptions.contains(subscription04));
 	}
-	
+
 	@Test
 	public void testApache999Event() {
 		Event event = new Event();
@@ -156,13 +156,13 @@ public class ComplexTreeTestCase {
 				new AttributeValue<>(APACHE_SERVER, String.class)));
 		event.putAttribute(new Attribute<>(PROCESS_ID_ATTR,
 				new AttributeValue<>(999L, Long.class)));
-		
+
 		List<Subscription> subscriptions = tree.match(event);
 		assertEquals(2, subscriptions.size());
 		assertTrue(subscriptions.contains(subscription01));
 		assertTrue(subscriptions.contains(subscription04));
 	}
-	
+
 	@Test
 	public void testFoo2000Event() {
 		Event event = new Event();
@@ -170,11 +170,11 @@ public class ComplexTreeTestCase {
 				new AttributeValue<>("foo", String.class)));
 		event.putAttribute(new Attribute<>(PROCESS_ID_ATTR,
 				new AttributeValue<>(2000L, Long.class)));
-		
+
 		List<Subscription> subscriptions = tree.match(event);
 		assertEquals(0, subscriptions.size());
 	}
-	
+
 	@Test
 	public void testFoo3000Event() {
 		Event event = new Event();
@@ -182,12 +182,12 @@ public class ComplexTreeTestCase {
 				new AttributeValue<>("foo", String.class)));
 		event.putAttribute(new Attribute<>(PROCESS_ID_ATTR,
 				new AttributeValue<>(3000L, Long.class)));
-		
+
 		List<Subscription> subscriptions = tree.match(event);
 		assertEquals(1, subscriptions.size());
 		assertTrue(subscriptions.contains(subscription03));
 	}
-	
+
 	@Test
 	public void postgreSql3000Event() {
 		Event event = new Event();
@@ -202,7 +202,7 @@ public class ComplexTreeTestCase {
 		assertTrue(subscriptions.contains(subscription03));
 		assertTrue(subscriptions.contains(subscription05));
 	}
-	
+
 	@Test
 	public void postgreSql1000Event() {
 		Event event = new Event();
@@ -215,7 +215,7 @@ public class ComplexTreeTestCase {
 		assertEquals(1, subscriptions.size());
 		assertTrue(subscriptions.contains(subscription02));
 	}
-	
+
 	@Test
 	public void apache3000Event() {
 		Event event = new Event();

@@ -1,9 +1,8 @@
 package cz.muni.fi.publishsubscribe.matchingtree.adapter;
 
 import cz.muni.fi.publishsubscribe.matchingtree.Attribute;
-import cz.muni.fi.publishsubscribe.matchingtree.Event;
 
-public class EventAdapter extends Event {
+public class Event extends cz.muni.fi.publishsubscribe.matchingtree.Event {
 
 	/*-private Map<String, Attribute<? extends Comparable<?>>> attributes = new HashMap<>();
 

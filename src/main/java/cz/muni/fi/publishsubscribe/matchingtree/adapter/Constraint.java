@@ -7,7 +7,7 @@ import cz.muni.fi.publishsubscribe.matchingtree.PredicateTest;
 import cz.muni.fi.publishsubscribe.matchingtree.TestOperation;
 import cz.muni.fi.publishsubscribe.matchingtree.TestResult;
 
-public class ConstraintAdapter<T1 extends Comparable<T1>> {
+public class Constraint<T1 extends Comparable<T1>> {
 
 	private Predicate<? extends Comparable<?>, ? extends Comparable<?>> predicate = null;
 
@@ -27,7 +27,7 @@ public class ConstraintAdapter<T1 extends Comparable<T1>> {
 		}
 	}
 
-	public ConstraintAdapter(String attributeName,
+	public Constraint(String attributeName,
 			AttributeValue<T1> attributeValue, Operator operator) {
 		PredicateTest<?> predicateTest = null;
 

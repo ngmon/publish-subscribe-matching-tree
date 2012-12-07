@@ -27,8 +27,8 @@ public class Constraint<T1 extends Comparable<T1>> {
 		}
 	}
 
-	public Constraint(String attributeName,
-			AttributeValue<T1> attributeValue, Operator operator) {
+	public Constraint(String attributeName, AttributeValue<T1> attributeValue,
+			Operator operator) {
 		PredicateTest<?> predicateTest = null;
 
 		switch (operator) {
@@ -48,9 +48,16 @@ public class Constraint<T1 extends Comparable<T1>> {
 		case EQUALS:
 			predicateTest = new PredicateTest<>(attributeName, null,
 					TestOperation.EXAMINE);
-			this.predicate = new Predicate<>(predicateTest,
-					new TestResult<String>((String) attributeValue.getValue(),
-							String.class));
+			if (attributeValue.getType() == Long.class) {
+				this.predicate = new Predicate<>(predicateTest,
+						new TestResult<Long>((Long) attributeValue.getValue(),
+								Long.class));
+			} else {
+				this.predicate = new Predicate<>(predicateTest,
+						new TestResult<String>(
+								(String) attributeValue.getValue(),
+								String.class));
+			}
 			break;
 		}
 	}

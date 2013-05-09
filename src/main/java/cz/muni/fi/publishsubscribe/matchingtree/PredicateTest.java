@@ -1,6 +1,6 @@
 package cz.muni.fi.publishsubscribe.matchingtree;
 
-public class PredicateTest<T1 extends Comparable<?>> {
+public class PredicateTest<T1 extends Comparable> {
 
 	private String attributeName;
 	private AttributeValue<T1> value;

@@ -132,7 +132,7 @@ public class MatchingTree {
 						.getAttributeByName(attributeName);
 
 				if (eventAttribute != null) {
-					AttributeValue<? extends Comparable<?>> eventAttributeValue = eventAttribute
+					AttributeValue<? extends Comparable> eventAttributeValue = eventAttribute
 							.getValue();
 
 					// switching based on the test in the current node

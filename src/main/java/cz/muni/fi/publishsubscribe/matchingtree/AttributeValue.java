@@ -1,6 +1,6 @@
 package cz.muni.fi.publishsubscribe.matchingtree;
 
-public class AttributeValue<T1 extends Comparable<?>> {
+public class AttributeValue<T1 extends Comparable> {
 
 	private final T1 value;
 	private final Class<T1> type;
